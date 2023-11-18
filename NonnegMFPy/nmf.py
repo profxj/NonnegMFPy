@@ -226,7 +226,8 @@ class NMF:
         chi2 = np.einsum('ij,ij', self.V*diff, diff)/self.V_size
         return chi2
 
-    def SolveNMF(self, W_only=False, H_only=False, sparsemode=False, maxiters=None, tol=None):
+    def SolveNMF(self, W_only=False, H_only=False, sparsemode=False, maxiters=None, tol=None,
+                 verbose:bool=False):
         """
         Construct the NMF basis
 
@@ -301,7 +302,7 @@ class NMF:
             if (not np.isfinite(chi2)):
                raise ValueError("NMF construction failed, likely due to missing data")
 
-            if (np.mod(niter, 20)==0):
+            if (np.mod(niter, 20)==0) and verbose:
                 print("Current Chi2={0:.4f}, Previous Chi2={1:.4f}, Change={2:.4f}% @ niters={3}".format(chi2,oldchi2,(oldchi2-chi2)/oldchi2*100.,niter), flush=True)
 
             niter += 1
